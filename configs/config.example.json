@@ -1,0 +1,9 @@
+{
+    "BASE_URL" : "a.website.address.com",
+    "POSTCODE" : "AB11AB",
+    "POSTCODE_OPTION_VALUE" : "123456",
+    "CRON_SCHEDULE" : "0 16 * * 1",
+    "EMAIL_USERNAME" : "CHANGE ME",
+    "EMAIL_PASSWORD" : "CHANGE ME",
+    "RECIPIENT_ADDRESSES" : [ "EXAMPLE@EXAMPLE.com" ]
+}

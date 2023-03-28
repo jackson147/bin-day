@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  bin-day:
+    image: bin-day:latest
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes: 
+        - './configs:/configs'
+    build: .
+    restart: always

@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  bin-day:
+    image: bin-day:latest
+    build: .
+    environment:
+      - PYTHONUNBUFFERED=1
+    secrets:
+      - bin-day-config.json
+
+secrets:
+  bin-day-config.json:
+    file: ./configs/config.json
