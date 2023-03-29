@@ -180,13 +180,13 @@ def send_bin_due_alert(bin_object):
 
 def get_bin_message(bin_object):
     bin_type = bin_object['bin_type']
-    bin_date = bin_object['date'].strftime('%m/%d/%Y')
+    bin_date = bin_object['date'].strftime('%A %d/%m/%Y')
 
     bin_colour = "Blue"
     if bin_type == "Refuse":
         bin_colour = "Green"
     
-    return f'Put the {bin_type} bin ({bin_colour}) out for collection tomorrow ({bin_date}).'
+    return f'Put the {bin_type} bin ({bin_colour}) out for collection on {bin_date}.'
 
 if __name__ == '__main__':
     init()
