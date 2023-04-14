@@ -19,7 +19,7 @@ from selenium.webdriver.support.ui import Select
 
 # Global vars
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36'
-TIMEOUT = 10 # Seconds
+TIMEOUT = 20 # Seconds
 CONFIGS_LOCATION = None
 CONFIG_FILE_PATH = None
 BASE_URL = None
@@ -188,6 +188,7 @@ def get_bin_message(bin_object):
     
     return f'Put the {bin_type} bin ({bin_colour}) out for collection on {bin_date}.'
 
+sleep_time_seconds = 120
 if __name__ == '__main__':
     init()
     check_date = datetime.now()
@@ -195,8 +196,15 @@ if __name__ == '__main__':
     while True:
         if pycron.has_been(CRON_SCHEDULE, check_date):
             print('Getting bin dates')
-            main()
-            sleep(120)                      
+            try:
+                main()
+                print("Done.")
+            except Exception as e:
+                print("Failed to get bin dates")
+                print(traceback.format_exc())
+            print(f"Sleeping for {sleep_time_seconds}s")
+            sleep(sleep_time_seconds)                      
         else:
             check_date = datetime.now()
+            # No need to loop at CPU max, just chill.
             sleep(15)                      
