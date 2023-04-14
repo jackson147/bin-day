@@ -1,3 +1,5 @@
 configs/config.json
+configs/config.json.bk
+configs/config.test.json
 venv/
 *.html
