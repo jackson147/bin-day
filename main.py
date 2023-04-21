@@ -29,6 +29,7 @@ EMAIL_USERNAME = None
 EMAIL_PASSWORD = None
 RECIPIENT_ADDRESSES = None
 CRON_SCHEDULE = None
+SLEEP_TIME_SECONDS = 1800
 
 # Selenium webdriver setup
 options = Options()
@@ -150,6 +151,7 @@ def load_config(path):
     global EMAIL_PASSWORD
     global RECIPIENT_ADDRESSES
     global CRON_SCHEDULE
+    global SLEEP_TIME_SECONDS
 
     with open(path, 'r') as file:
         data = json.load(file)
@@ -161,6 +163,7 @@ def load_config(path):
         EMAIL_PASSWORD = data['EMAIL_PASSWORD']
         RECIPIENT_ADDRESSES = data['RECIPIENT_ADDRESSES']
         CRON_SCHEDULE = data['CRON_SCHEDULE']
+        SLEEP_TIME_SECONDS = data['SLEEP_TIME_SECONDS']
 
 def send_bin_due_alert(bin_object):
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -188,7 +191,6 @@ def get_bin_message(bin_object):
     
     return f'Put the {bin_type} bin ({bin_colour}) out for collection on {bin_date}.'
 
-sleep_time_seconds = 120
 if __name__ == '__main__':
     init()
     check_date = datetime.now()
@@ -196,16 +198,15 @@ if __name__ == '__main__':
     while True:
         print(f"Checking if cron ({CRON_SCHEDULE}) is between: {check_date} - {datetime.now()}")
         if pycron.has_been(CRON_SCHEDULE, check_date):
+            
             print('Getting bin dates')
             try:
                 main()
                 print("Done.")
             except Exception as e:
                 print("Failed to get bin dates")
-                print(traceback.format_exc())
-            print(f"Sleeping for {sleep_time_seconds}s")
-            sleep(sleep_time_seconds)               
-            check_date = datetime.now()       
-        else:
-            # No need to loop at CPU max, just chill.
-            sleep(60)                      
+                print(traceback.format_exc())         
+            check_date = datetime.now()     
+
+        print(f"Sleeping for {SLEEP_TIME_SECONDS}s")
+        sleep(SLEEP_TIME_SECONDS)                    
