@@ -194,6 +194,7 @@ if __name__ == '__main__':
     check_date = datetime.now()
     print(f"Starting main loop with time: {check_date} and cron: {CRON_SCHEDULE}")
     while True:
+        print(f"Checking if cron ({CRON_SCHEDULE}) is between: {check_date} - {datetime.now()}")
         if pycron.has_been(CRON_SCHEDULE, check_date):
             print('Getting bin dates')
             try:
@@ -203,8 +204,8 @@ if __name__ == '__main__':
                 print("Failed to get bin dates")
                 print(traceback.format_exc())
             print(f"Sleeping for {sleep_time_seconds}s")
-            sleep(sleep_time_seconds)                      
+            sleep(sleep_time_seconds)               
+            check_date = datetime.now()       
         else:
-            check_date = datetime.now()
             # No need to loop at CPU max, just chill.
-            sleep(15)                      
+            sleep(60)                      
